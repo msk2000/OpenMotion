@@ -5,6 +5,11 @@
 #include <math.h>
 #include <array>
 #include <QDebug>
+// For serial com
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <cstring> // for memset
 
 
 #define rad2deg 180 / M_PI
@@ -176,8 +181,89 @@ void MainWindow::on_homeButton_clicked()
             FLAG = 1;
         };
 }
+void MainWindow::setupSerial(int &fd, struct termios &settings)
+{
+    fd = open("/dev/ttyACM0", O_WRONLY | O_NDELAY | O_NOCTTY);
+        if (fd < 0)
+        {
+            perror("Error opening serial port");
+            exit(-1);
+        }
+
+        memset(&settings, 0, sizeof(settings)); // Clear the struct
+        settings.c_cflag = B9600 | CS8 | CLOCAL | CREAD; // Set baudrate, data size, ignore modem control
+        settings.c_iflag = IGNPAR; // Ignore parity errors
+        settings.c_oflag = 0; // No special output processing
+        settings.c_lflag = 0; // No special local modes
+
+        // Apply the settings
+        tcflush(fd, TCIFLUSH); // Clear input buffer
+        tcflush(fd, TCOFLUSH); // Clear output buffer
+        tcsetattr(fd, TCSANOW, &settings); // Apply the settings immediately
+}
+
+void MainWindow::sendToSerial(int fd, const char* data)
+{
+    int len = strlen(data);  // Length of the string to send
+    int bytesWritten = write(fd, data, len);  // Write to the serial port
+    if (bytesWritten < 0) {
+        perror("Error writing to serial port");
+        return;
+    }
+    qDebug() << "Sent to serial:" << data;
+}
+
+double MainWindow::clamp(double value, double min, double max)
+{
+    if (value < min)
+    {
+        return min;
+    }
+    if (value > max)
+    {
+        return max;
+    }
+        return value;
+}
+
 void MainWindow::on_startButton_clicked()
 {
+    // Initialize serial com with Arduino
+    int fd; // file descriptor
+    struct termios settings; // struct for storing termios config
+    int serialPosition; // servo position
+
+    // Call setupSerial to initialize the serial port
+     setupSerial(fd, settings);
+
+    //Control a single servo for testing
+    double angle = ui->Slider_X->value();  // Get the angle from the slider (or any input control)
+    angle = clamp(angle, 0.0, 180.0);  //    Ensure the angle is between 0 and 180 degrees
+
+    // Convert angle to string for sending over serial
+    std::string angleStr = std::to_string(static_cast<int>(angle)) + "\n";
+
+    // Send angle to Arduino using custom serial method
+    sendToSerial(fd, angleStr.c_str()); // Replace with your own function
+
+    // Print the current angle to the debug window
+    qDebug() << "Servo angle sent:" << angle;
+
+    ::close(fd); // Close the serial port after use
+
+
+
+
+    /////////////////////////////////////
+    /// Setting defautls
+
+
+
+
+
+
+
+
     double servo_arm = 18;
     double servo_leg = 140;
     double beta[6] = {

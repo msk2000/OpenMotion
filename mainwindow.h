@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include <QSlider>
+// For serial com
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <cstring> // for memset
 
 
 namespace Ui {
@@ -42,6 +47,11 @@ private slots:
     void on_Slider_THETA_valueChanged(int value);
 
     void on_Slider_PSI_valueChanged(int value);
+
+    //for serial
+    void setupSerial(int &fd, struct termios &settings);
+    void sendToSerial(int fd, const char* data);
+    double clamp(double value, double min, double max);
 
 
 
