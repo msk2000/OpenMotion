@@ -14,6 +14,12 @@ The simulator will allow precise control over each degree of freedom using slide
 ## Status
 The project is under development. I will be updating the repository soon with more code and documentation. Stay tuned!
 
+### Current parts of the project being worked on:
+- X-Plane Flight simulator integration
+- Hardware prototype is being put together to test the code
+- Servo control
+
+
 ## Installation and Usage
 Instructions for installation and usage will be provided in future updates.
 
