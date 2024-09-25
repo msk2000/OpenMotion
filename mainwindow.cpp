@@ -234,22 +234,11 @@ void MainWindow::on_startButton_clicked()
     int serialPosition; // servo position
 
     // Call setupSerial to initialize the serial port
-     setupSerial(fd, settings);
+        setupSerial(fd, settings);
 
-    //Control a single servo for testing
-    double angle = ui->Slider_X->value();  // Get the angle from the slider (or any input control)
-    angle = clamp(angle, 0.0, 180.0);  //    Ensure the angle is between 0 and 180 degrees
+        // Control multiple servos
+        std::array<double, 6> angles; // Array to hold angles for 6 servos
 
-    // Convert angle to string for sending over serial
-    std::string angleStr = std::to_string(static_cast<int>(angle)) + "\n";
-
-    // Send angle to Arduino using custom serial method
-    sendToSerial(fd, angleStr.c_str()); // Replace with your own function
-
-    // Print the current angle to the debug window
-    qDebug() << "Servo angle sent:" << angle;
-
-    ::close(fd); // Close the serial port after use
 
 
 
@@ -397,9 +386,30 @@ void MainWindow::on_startButton_clicked()
 
                 alpha(0,i) = asin(L(0,i) / sqrt(std::pow(M(0,i), 2) + std::pow(N(0,i), 2))) - atan(N(0,i) / M(0,i));
                 servo_deg(0,i) = rad2deg*(alpha[i]);
+                angles[i] = clamp(servo_deg[i],0.0,180.0); // getting the angles ready in the angles array
 
 
-            }
+            } 
+                    // Convert angles to a string for sending over serial
+
+                    std::ostringstream angleStream;
+                    for (size_t i = 0; i < angles.size(); ++i)
+                    {
+                        angleStream << static_cast<int>(angles[i]); // Convert to int
+                        if (i < angles.size() - 1)
+                        {
+                            angleStream << ","; // Add delimiter
+                        }
+                    }
+                    angleStream << "\n"; // End the string with a newline
+
+                    // Send the angle string to Arduino using custom serial method
+                    sendToSerial(fd, angleStream.str().c_str());
+
+
+
+                ::close(fd); // Close the serial port after use
+
 
 
          //Changed knee position
@@ -434,7 +444,6 @@ void MainWindow::on_abortButton_clicked()
 void MainWindow::on_Slider_X_valueChanged(int value)
 {
     double X =  1.0*value;//(ui->Slider_X->value());
-    qDebug() << "X value changed to" << X;
     setX(X);
     on_startButton_clicked();
 

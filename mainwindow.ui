@@ -52,13 +52,13 @@
     <item>
      <widget class="QSlider" name="Slider_X">
       <property name="minimum">
-       <number>0</number>
+       <number>-30</number>
       </property>
       <property name="maximum">
-       <number>180</number>
+       <number>30</number>
       </property>
       <property name="singleStep">
-       <number>10</number>
+       <number>1</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
