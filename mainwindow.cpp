@@ -21,7 +21,20 @@ using Eigen::VectorXd;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    // Initialize all member variables in the initializer list
+
+        X(0),
+        Y(0),
+        Z(0),
+        phi(0),
+        theta(0),
+        psi(0),
+        angles{90.0, 90.0, 90.0, 90.0, 90.0, 90.0}, // Initialize with zeros or any default value
+        servo_arm(18),
+        servo_leg(120),
+        beta{M_PI / 3, -2 * M_PI / 3, M_PI, 0, 5 * M_PI / 3, 2 * M_PI / 3},
+        height(115) // Initialization of height
 
 {
 
@@ -33,6 +46,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->Slider_PHI, SIGNAL(valueChanged(int)), this, SLOT(on_Slider_PHI_valueChanged(int)));
     connect(ui->Slider_THETA, SIGNAL(valueChanged(int)), this, SLOT(on_Slider_THETA_valueChanged(int)));
     connect(ui->Slider_PSI, SIGNAL(valueChanged(int)), this, SLOT(on_Slider_PSI_valueChanged(int)));
+
+
+
+
+    //======================Arduino and Serial ====================\\
+
+
+
+
 
 }
 
@@ -59,19 +81,8 @@ void MainWindow::on_homeButton_clicked()
 
 
     //All the constant stuff
-        double X, Y, Z, phi, theta, psi;
-        double servo_arm = 18;
-        double servo_leg = 140;
-        double beta[6] =
-        {
-                            M_PI / 3,
-                            -2 * M_PI / 3,
-                            M_PI,
-                            0,
-                            5 * M_PI / 3,
-                            2 * M_PI / 3
-        }; //! Changes home calcs
-        double height = 155;
+
+
         int FLAG = 0;
 
         // Platform points (top) Pi
@@ -109,8 +120,7 @@ void MainWindow::on_homeButton_clicked()
     // Initialising to home position
         while(FLAG == 0)
         {
-           //Parameters (3 trans inputs and 3 rot inputs)
-           X = Y = Z = phi = theta = psi = 0;
+
 
            // Height of the platform when servo arm is perpendicular to leg
            double h_0 = sqrt(std::pow(servo_leg,2) + std::pow(servo_arm,2)
@@ -181,7 +191,7 @@ void MainWindow::on_homeButton_clicked()
             FLAG = 1;
         };
 }
-void MainWindow::setupSerial(int &fd, struct termios &settings)
+void MainWindow::setupSerial()//(int &fd, struct termios &settings)
 {
     fd = open("/dev/ttyACM0", O_WRONLY | O_NDELAY | O_NOCTTY);
         if (fd < 0)
@@ -228,41 +238,12 @@ double MainWindow::clamp(double value, double min, double max)
 
 void MainWindow::on_startButton_clicked()
 {
-    // Initialize serial com with Arduino
-    int fd; // file descriptor
-    struct termios settings; // struct for storing termios config
-    int serialPosition; // servo position
-
-    // Call setupSerial to initialize the serial port
-        setupSerial(fd, settings);
-
-        // Control multiple servos
-        std::array<double, 6> angles; // Array to hold angles for 6 servos
-
-
-
-
+    // Move this later
+    setupSerial();
 
     /////////////////////////////////////
     /// Setting defautls
 
-
-
-
-
-
-
-
-    double servo_arm = 18;
-    double servo_leg = 140;
-    double beta[6] = {
-                        M_PI / 3,
-                        -2 * M_PI / 3,
-                        M_PI,
-                        0,
-                        5 * M_PI / 3,
-                        2 * M_PI / 3}; //! Changes home calcs
-    double height = 155;
 
 
     // Platform points (top) Pi
@@ -274,9 +255,7 @@ void MainWindow::on_startButton_clicked()
         {53.9, 16.7, 0},
         {41.4, 38.3, 0}};
     Platform_pos_zero.transposeInPlace();
-   // (Platform_pos_zero); // debug
 
-    // Servo points (base) //! z changed to all zeros // Trying to make it sy
     MatrixXd Servo_pos{
         {-46.5, 74, 0},
         {-90.5, 1.1, 0},
@@ -285,7 +264,7 @@ void MainWindow::on_startButton_clicked()
         {90.5, 1.14, 0},
         {46.5, 74, 0}};
     Servo_pos.transposeInPlace();
-   // (Servo_pos); // debug
+
 
     // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
     MatrixXd R_PB{
@@ -314,7 +293,7 @@ void MainWindow::on_startButton_clicked()
            t_home << 0, 0, h_0;
            Eigen::Matrix<double, 3, 1> t_input;
            t_input << X, Y, Z;
-           qDebug() << "X here is :" << X;
+           qDebug() << "Z here is :" << Z;
            Eigen::Matrix<double, 3, 1> T;
            T = t_home + t_input;
 
@@ -412,7 +391,7 @@ void MainWindow::on_startButton_clicked()
 
 
 
-         //Changed knee position
+         //Changed knee position}
          Eigen::Matrix<double,3,6> Knee_pos_new;
 
                     for (size_t j=0; j<6; j++)
