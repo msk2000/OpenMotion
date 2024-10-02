@@ -72,6 +72,9 @@ private:
     int fd; // file descriptor
     struct termios settings;  // termios config for the serial port
 
+    // Platform geometry
+
+
     QSlider *Slider_X; // declare Slider_X as a member of the class
     QSlider *Slider_Y;
     QSlider *Slider_Z;

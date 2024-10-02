@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
         angles{90.0, 90.0, 90.0, 90.0, 90.0, 90.0}, // Initialize with zeros or any default value
         servo_arm(18),
         servo_leg(120),
-        beta{M_PI / 3, -2 * M_PI / 3, M_PI, 0, 5 * M_PI / 3, 2 * M_PI / 3},
+        beta{0, -M_PI / 3, -2 * M_PI / 3, -M_PI, -4 * M_PI / 3, -5 * M_PI / 3},        //beta{M_PI / 2, M_PI / 6, -M_PI/6,  -M_PI / 2, -5 * M_PI / 6, -2* M_PI /3},//beta{M_PI / 3, -2 * M_PI / 3, M_PI, 0, 5 * M_PI / 3, 2 * M_PI / 3},
         height(115) // Initialization of height
 
 {
