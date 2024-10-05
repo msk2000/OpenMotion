@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>624</height>
+    <width>642</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,198 +29,313 @@
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
+   <widget class="QLabel" name="ArduinoStatus">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>30</y>
+      <width>391</width>
+      <height>24</height>
+     </rect>
     </property>
-    <item>
-     <widget class="QPushButton" name="homeButton">
-      <property name="text">
-       <string>Home</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="startButton">
-      <property name="text">
-       <string>Start</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Surge (X)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSlider" name="Slider_X">
-      <property name="minimum">
-       <number>-30</number>
-      </property>
-      <property name="maximum">
-       <number>30</number>
-      </property>
-      <property name="singleStep">
-       <number>1</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Sway (Y)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSlider" name="Slider_Y">
-      <property name="minimum">
-       <number>-30</number>
-      </property>
-      <property name="maximum">
-       <number>30</number>
-      </property>
-      <property name="singleStep">
-       <number>1</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Heave (Z)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSlider" name="Slider_Z">
-      <property name="minimum">
-       <number>-30</number>
-      </property>
-      <property name="maximum">
-       <number>30</number>
-      </property>
-      <property name="singleStep">
-       <number>1</number>
-      </property>
-      <property name="value">
-       <number>16</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Roll (phi)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSlider" name="Slider_PHI">
-      <property name="minimum">
-       <number>-45</number>
-      </property>
-      <property name="maximum">
-       <number>45</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Pitch (theta)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSlider" name="Slider_THETA">
-      <property name="minimum">
-       <number>-45</number>
-      </property>
-      <property name="maximum">
-       <number>45</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Yaw (psi)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSlider" name="Slider_PSI">
-      <property name="minimum">
-       <number>-45</number>
-      </property>
-      <property name="maximum">
-       <number>45</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="abortButton">
-      <property name="text">
-       <string>ABORT</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+    <property name="font">
+     <font>
+      <family>Abyssinica SIL</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Arduino Status: Not Connected</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>23</y>
+      <width>221</width>
+      <height>555</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Abyssinica SIL</family>
+     </font>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="homeButton">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Home</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="startButton">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Start</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Surge (X)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Slider_X">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="minimum">
+        <number>-30</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
+       <property name="singleStep">
+        <number>1</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Sway (Y)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Slider_Y">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="minimum">
+        <number>-30</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
+       <property name="singleStep">
+        <number>1</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Heave (Z)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Slider_Z">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="minimum">
+        <number>-30</number>
+       </property>
+       <property name="maximum">
+        <number>30</number>
+       </property>
+       <property name="singleStep">
+        <number>1</number>
+       </property>
+       <property name="value">
+        <number>16</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Roll (phi)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Slider_PHI">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="minimum">
+        <number>-45</number>
+       </property>
+       <property name="maximum">
+        <number>45</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Pitch (theta)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Slider_THETA">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="minimum">
+        <number>-45</number>
+       </property>
+       <property name="maximum">
+        <number>45</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Yaw (psi)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Slider_PSI">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="minimum">
+        <number>-45</number>
+       </property>
+       <property name="maximum">
+        <number>45</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="abortButton">
+       <property name="font">
+        <font>
+         <family>Abyssinica SIL</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>ABORT</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>504</width>
-     <height>19</height>
+     <width>642</width>
+     <height>25</height>
     </rect>
    </property>
   </widget>

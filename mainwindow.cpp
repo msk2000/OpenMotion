@@ -86,28 +86,27 @@ void MainWindow::on_homeButton_clicked()
         int FLAG = 0;
 
         // Platform points (top) Pi
-        MatrixXd Platform_pos_zero{
-            {-41.4, 38.3, 0},
-            {-53.9, 16.7, 0},
-            {-12.5, -55, 0},
-            {12.5, -55, 0},
-            {53.9, 16.7, 0},
-            {41.4, 38.3, 0}};
-        Platform_pos_zero.transposeInPlace();
+        Eigen::Matrix<double, 3, 6> Platform_pos_zero
+        {
+            {-41.4, -53.9, -12.5, 12.5, 53.9, 41.4}, // First row
+            {38.3, 16.7, -55, -55, 16.7, 38.3},      // Second row
+            {0, 0, 0, 0, 0, 0}                       // Third row
+        };
+
 
 
         // Servo points (base) //! z changed to all zeros // Trying to make it sy
-        MatrixXd Servo_pos{
-            {-46.5, 74, 0},
-            {-90.5, 1.1, 0},
-            {-43.5, -81, 0},
-            {43.5, -81, 0},
-            {90.5, 1.14, 0},
-            {46.5, 74, 0}};
-        Servo_pos.transposeInPlace();
+        Eigen::Matrix<double, 3, 6> Servo_pos
+        {
+            {-46.5, -90.5, -43.5, 43.5, 90.5, 46.5},  // First row
+            {74, 1.1, -81, -81, 1.14, 74},            // Second row
+            {0, 0, 0, 0, 0, 0}                        // Third row
+        };
+
 
         // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
-        MatrixXd R_PB{
+        Eigen::Matrix<double,3,3> R_PB
+        {
             {cos(psi) * cos(theta), (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)), (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi))},
             {sin(psi) * cos(theta), (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)), (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi))},
             {-sin(theta), cos(theta) * sin(phi), cos(theta) * cos(phi)}
@@ -139,21 +138,21 @@ void MainWindow::on_homeButton_clicked()
 
 
            // Calculate platform's home position (New_pos)
-           MatrixXd Rotated_platform = R_PB * Platform_pos_zero;
+           Eigen::Matrix<double, 3, 6> Rotated_platform = R_PB * Platform_pos_zero;
            //MatrixXd New_pos = (T.array().replicate<1, 6>().matrix()).array() + Rotated_platform.array();
 
 
-           MatrixXd New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
+           Eigen::Matrix<double, 3, 6> New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
 
 
            // Calculate angle of the servo arm at home position
            // First find the linear Leg length
 
-           MatrixXd lin_leg_lengths = New_pos - Servo_pos;
+           Eigen::Matrix<double, 3, 6> lin_leg_lengths = New_pos - Servo_pos;
 
            // The .colwise().norm() method calculates the Euclidean norm of each column,
            // which corresponds to the length of each leg vector
-           MatrixXd virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
+           Eigen::Matrix<double, 1, 6> virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
 
 
 
@@ -193,6 +192,8 @@ void MainWindow::on_homeButton_clicked()
 }
 void MainWindow::setupSerial()//(int &fd, struct termios &settings)
 {
+     ui->ArduinoStatus->setText("Arduino Status: Checking connection...");
+
     fd = open("/dev/ttyACM0", O_WRONLY | O_NDELAY | O_NOCTTY);
         if (fd < 0)
         {
@@ -210,6 +211,8 @@ void MainWindow::setupSerial()//(int &fd, struct termios &settings)
         tcflush(fd, TCIFLUSH); // Clear input buffer
         tcflush(fd, TCOFLUSH); // Clear output buffer
         tcsetattr(fd, TCSANOW, &settings); // Apply the settings immediately
+
+       ui->ArduinoStatus->setText("Arduino Status: Connected");
 }
 
 void MainWindow::sendToSerial(int fd, const char* data)
@@ -247,27 +250,27 @@ void MainWindow::on_startButton_clicked()
 
 
     // Platform points (top) Pi
-    MatrixXd Platform_pos_zero{
-        {-41.4, 38.3, 0},
-        {-53.9, 16.7, 0},
-        {-12.5, -55, 0},
-        {12.5, -55, 0},
-        {53.9, 16.7, 0},
-        {41.4, 38.3, 0}};
-    Platform_pos_zero.transposeInPlace();
+    Eigen::Matrix<double, 3, 6> Platform_pos_zero
+    {
+        {-41.4, -53.9, -12.5, 12.5, 53.9, 41.4}, // First row
+        {38.3, 16.7, -55, -55, 16.7, 38.3},      // Second row
+        {0, 0, 0, 0, 0, 0}                       // Third row
+    };
 
-    MatrixXd Servo_pos{
-        {-46.5, 74, 0},
-        {-90.5, 1.1, 0},
-        {-43.5, -81, 0},
-        {43.5, -81, 0},
-        {90.5, 1.14, 0},
-        {46.5, 74, 0}};
-    Servo_pos.transposeInPlace();
+
+
+    // Servo points (base) //! z changed to all zeros // Trying to make it sy
+    Eigen::Matrix<double, 3, 6> Servo_pos
+    {
+        {-46.5, -90.5, -43.5, 43.5, 90.5, 46.5},  // First row
+        {74, 1.1, -81, -81, 1.14, 74},            // Second row
+        {0, 0, 0, 0, 0, 0}                        // Third row
+    };
+
 
 
     // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
-    MatrixXd R_PB{
+    Eigen::Matrix<double, 3, 3> R_PB{
         {cos(psi) * cos(theta), (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)), (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi))},
         {sin(psi) * cos(theta), (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)), (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi))},
         {-sin(theta), cos(theta) * sin(phi), cos(theta) * cos(phi)}
@@ -299,7 +302,7 @@ void MainWindow::on_startButton_clicked()
 
            //! testing rot import
            // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
-        MatrixXd R_PB{
+        Eigen::Matrix<double, 3, 3> R_PB{
             {cos(psi) * cos(theta), (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)), (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi))},
             {sin(psi) * cos(theta), (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)), (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi))},
             {-sin(theta), cos(theta) * sin(phi), cos(theta) * cos(phi)}
@@ -307,21 +310,21 @@ void MainWindow::on_startButton_clicked()
         };
 
            // Calculate platform's transformed position(New_pos)
-           MatrixXd Rotated_platform = R_PB * Platform_pos_zero;
+           Eigen::Matrix<double, 3, 6> Rotated_platform = R_PB * Platform_pos_zero;
            //MatrixXd New_pos = (T.array().replicate<1, 6>().matrix()).array() + Rotated_platform.array();
 
 
-           MatrixXd New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
+           Eigen::Matrix<double, 3, 6> New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
 
 
            // Calculate angle of the servo arm at NEW position
            // First find the linear Leg length
 
-           MatrixXd lin_leg_lengths = New_pos - Servo_pos;
+           Eigen::Matrix<double, 3, 6> lin_leg_lengths = New_pos - Servo_pos;
 
            // The .colwise().norm() method calculates the Euclidean norm of each column,
            // which corresponds to the length of each leg vector
-           MatrixXd virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
+           Eigen::Matrix<double, 1, 6> virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
 
 
            // Calculate the servo angles for each leg
@@ -368,7 +371,7 @@ void MainWindow::on_startButton_clicked()
                 angles[i] = clamp(servo_deg[i],0.0,180.0); // getting the angles ready in the angles array
 
 
-            } 
+            }
                     // Convert angles to a string for sending over serial
 
                     std::ostringstream angleStream;
