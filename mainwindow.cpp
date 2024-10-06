@@ -275,11 +275,10 @@ void MainWindow::on_startButton_clicked()
             cos(theta) * sin(phi),
             cos(theta) * cos(phi);
 
-    double FLAG = 1;
+
 
     // When platform is moving
-        while(FLAG == 1)
-        {
+
 
 
 
@@ -408,11 +407,7 @@ void MainWindow::on_startButton_clicked()
 
 
 
-            FLAG = 0;
 
-
-
-        };
 
 
 
