@@ -83,7 +83,6 @@ void MainWindow::on_homeButton_clicked()
     //All the constant stuff
 
 
-        int FLAG = 0;
 
         // Platform points (top) Pi
         Platform_pos_zero << -41.4, -53.9, -12.5, 12.5, 53.9, 41.4, // First row
@@ -117,8 +116,7 @@ void MainWindow::on_homeButton_clicked()
 
 
     // Initialising to home position
-        while(FLAG == 0)
-        {
+
 
 
            // Height of the platform when servo arm is perpendicular to leg
@@ -187,8 +185,8 @@ void MainWindow::on_homeButton_clicked()
 
 
 
-            FLAG = 1;
-        };
+
+
 }
 void MainWindow::setupSerial()//(int &fd, struct termios &settings)
 {
