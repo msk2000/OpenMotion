@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <cstring> // for memset
+#include <Eigen/Dense>
 
 
 namespace Ui {
@@ -73,6 +74,32 @@ private:
     struct termios settings;  // termios config for the serial port
 
     // Platform geometry
+    Eigen::Matrix<double, 3, 6> Platform_pos_zero;
+    Eigen::Matrix<double, 3, 6> Servo_pos;
+    Eigen::Matrix<double,3,3> R_PB; //rotation matrix
+    Eigen::Matrix<double, 3, 1> t_home;
+    Eigen::Matrix<double, 3, 1> t_input;
+    Eigen::Matrix<double, 3, 1> T;
+    double h_0;
+    Eigen::Matrix<double, 3, 6> Rotated_platform;
+    Eigen::Matrix<double, 3, 6> New_pos;
+    Eigen::Matrix<double, 3, 6> lin_leg_lengths;
+    Eigen::Matrix<double, 1, 6> virtual_leg_lengths;
+    double L_home;
+    double M_home;
+    double N_home;
+    Eigen::Matrix<double,1,6> L;
+    Eigen::Matrix<double,1,6> M;
+    double x_diff; // intermediate calc
+    double y_diff;
+    Eigen::Matrix<double,1,6> N;
+    Eigen::Matrix<double,1,6>alpha;
+    Eigen::Matrix<double,1,6>servo_deg;
+    Eigen::Matrix<double,3,6> Knee_pos_new;
+    double alpha_home;
+    double alpha_home_deg;
+    Eigen::Matrix<double,3,6> Knee_pos_home;
+
 
 
     QSlider *Slider_X; // declare Slider_X as a member of the class

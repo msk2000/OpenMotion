@@ -16,8 +16,8 @@
 #define deg2rad M_PI / 180
 
 
-using Eigen::MatrixXd;
-using Eigen::VectorXd;
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -86,32 +86,32 @@ void MainWindow::on_homeButton_clicked()
         int FLAG = 0;
 
         // Platform points (top) Pi
-        Eigen::Matrix<double, 3, 6> Platform_pos_zero
-        {
-            {-41.4, -53.9, -12.5, 12.5, 53.9, 41.4}, // First row
-            {38.3, 16.7, -55, -55, 16.7, 38.3},      // Second row
-            {0, 0, 0, 0, 0, 0}                       // Third row
-        };
+        Platform_pos_zero << -41.4, -53.9, -12.5, 12.5, 53.9, 41.4, // First row
+                             38.3, 16.7, -55, -55, 16.7, 38.3,      // Second row
+                             0, 0, 0, 0, 0, 0;                     // Third row
 
 
 
         // Servo points (base) //! z changed to all zeros // Trying to make it sy
-        Eigen::Matrix<double, 3, 6> Servo_pos
-        {
-            {-46.5, -90.5, -43.5, 43.5, 90.5, 46.5},  // First row
-            {74, 1.1, -81, -81, 1.14, 74},            // Second row
-            {0, 0, 0, 0, 0, 0}                        // Third row
-        };
+        Servo_pos << -46.5, -90.5, -43.5, 43.5, 90.5, 46.5,  // First row
+                      74, 1.1, -81, -81, 1.14, 74,           // Second row
+                      0, 0, 0, 0, 0, 0;                     // Third row
 
 
         // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
-        Eigen::Matrix<double,3,3> R_PB
-        {
-            {cos(psi) * cos(theta), (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)), (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi))},
-            {sin(psi) * cos(theta), (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)), (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi))},
-            {-sin(theta), cos(theta) * sin(phi), cos(theta) * cos(phi)}
 
-        };
+        R_PB << cos(psi) * cos(theta),
+                (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)),
+                (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi)),
+
+                sin(psi) * cos(theta),
+                (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)),
+                (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi)),
+
+                -sin(theta),
+                cos(theta) * sin(phi),
+                cos(theta) * cos(phi);
+
 
 
 
@@ -122,55 +122,55 @@ void MainWindow::on_homeButton_clicked()
 
 
            // Height of the platform when servo arm is perpendicular to leg
-           double h_0 = sqrt(std::pow(servo_leg,2) + std::pow(servo_arm,2)
+           h_0 = sqrt(std::pow(servo_leg,2) + std::pow(servo_arm,2)
                    - std::pow(Platform_pos_zero(0,0) - Servo_pos(0,0),2)
                    - std::pow(Platform_pos_zero(1,0) - Servo_pos(1,0),2))
                    - Platform_pos_zero(2,0);
 
 
            // Platform points when zero rotation and translation
-           Eigen::Matrix<double, 3, 1> t_home;
+
            t_home << 0, 0, h_0;
-           Eigen::Matrix<double, 3, 1> t_input;
+
            t_input << X, Y, Z;
-           Eigen::Matrix<double, 3, 1> T;
+
            T = t_home + t_input;
 
 
            // Calculate platform's home position (New_pos)
-           Eigen::Matrix<double, 3, 6> Rotated_platform = R_PB * Platform_pos_zero;
+           Rotated_platform = R_PB * Platform_pos_zero;
            //MatrixXd New_pos = (T.array().replicate<1, 6>().matrix()).array() + Rotated_platform.array();
 
 
-           Eigen::Matrix<double, 3, 6> New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
+           New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
 
 
            // Calculate angle of the servo arm at home position
            // First find the linear Leg length
 
-           Eigen::Matrix<double, 3, 6> lin_leg_lengths = New_pos - Servo_pos;
+           lin_leg_lengths = New_pos - Servo_pos;
 
            // The .colwise().norm() method calculates the Euclidean norm of each column,
            // which corresponds to the length of each leg vector
-           Eigen::Matrix<double, 1, 6> virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
+           virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
 
 
 
 
            // Due to platform symmetry, we can only consider the leg with 0 beta //!Are we symmetric?
-           double L_home = 2 * std::pow(servo_arm, 2);
-           double M_home = 2 * servo_arm * (New_pos(0,0) - Servo_pos(0,0));
-           double N_home = 2 * servo_arm * (h_0 + New_pos(2,3));
+           L_home = 2 * std::pow(servo_arm, 2);
+           M_home = 2 * servo_arm * (New_pos(0,0) - Servo_pos(0,0));
+           N_home = 2 * servo_arm * (h_0 + New_pos(2,3));
 
-           double alpha_home = asin(L_home/sqrt(pow(M_home,2)+pow(N_home,2))) - atan(M_home/N_home);
-           double alpha_home_deg = rad2deg*alpha_home;
+           alpha_home = asin(L_home/sqrt(pow(M_home,2)+pow(N_home,2))) - atan(M_home/N_home);
+           alpha_home_deg = rad2deg*alpha_home;
 
 
           // Let's try to workout the servo arm/leg join positions
 
 
         //Changed knee position
-        Eigen::Matrix<double,3,6> Knee_pos_home;
+
 
                    for (size_t j=0; j<6; j++)
                    {
@@ -250,32 +250,33 @@ void MainWindow::on_startButton_clicked()
 
 
     // Platform points (top) Pi
-    Eigen::Matrix<double, 3, 6> Platform_pos_zero
-    {
-        {-41.4, -53.9, -12.5, 12.5, 53.9, 41.4}, // First row
-        {38.3, 16.7, -55, -55, 16.7, 38.3},      // Second row
-        {0, 0, 0, 0, 0, 0}                       // Third row
-    };
+    Platform_pos_zero << -41.4, -53.9, -12.5, 12.5, 53.9, 41.4, // First row
+                         38.3, 16.7, -55, -55, 16.7, 38.3,      // Second row
+                         0, 0, 0, 0, 0, 0;                     // Third row
 
 
 
     // Servo points (base) //! z changed to all zeros // Trying to make it sy
-    Eigen::Matrix<double, 3, 6> Servo_pos
-    {
-        {-46.5, -90.5, -43.5, 43.5, 90.5, 46.5},  // First row
-        {74, 1.1, -81, -81, 1.14, 74},            // Second row
-        {0, 0, 0, 0, 0, 0}                        // Third row
-    };
+    Servo_pos << -46.5, -90.5, -43.5, 43.5, 90.5, 46.5,  // First row
+                  74, 1.1, -81, -81, 1.14, 74,           // Second row
+                  0, 0, 0, 0, 0, 0;                     // Third row
+
 
 
 
     // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
-    Eigen::Matrix<double, 3, 3> R_PB{
-        {cos(psi) * cos(theta), (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)), (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi))},
-        {sin(psi) * cos(theta), (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)), (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi))},
-        {-sin(theta), cos(theta) * sin(phi), cos(theta) * cos(phi)}
+    R_PB << cos(psi) * cos(theta),
+            (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)),
+            (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi)),
 
-    };
+            sin(psi) * cos(theta),
+            (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)),
+            (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi)),
+
+            -sin(theta),
+            cos(theta) * sin(phi),
+            cos(theta) * cos(phi);
+
     double FLAG = 1;
 
     // When platform is moving
@@ -285,51 +286,56 @@ void MainWindow::on_startButton_clicked()
 
 
         // Height of the platform when servo arm is perpendicular to leg
-           double h_0 = sqrt(std::pow(servo_leg,2) + std::pow(servo_arm,2)
+           h_0 = sqrt(std::pow(servo_leg,2) + std::pow(servo_arm,2)
                    - std::pow(Platform_pos_zero(0,0) - Servo_pos(0,0),2)
                    - std::pow(Platform_pos_zero(1,0) - Servo_pos(1,0),2))
                    - Platform_pos_zero(2,0);
 
 
            // Platform points when zero rotation and translation
-           Eigen::Matrix<double, 3, 1> t_home;
+
            t_home << 0, 0, h_0;
-           Eigen::Matrix<double, 3, 1> t_input;
+
            t_input << X, Y, Z;
            qDebug() << "Z here is :" << Z;
-           Eigen::Matrix<double, 3, 1> T;
+
            T = t_home + t_input;
 
            //! testing rot import
            // Rotation matrix (R = Rz*Ry*Rx) used to take platform stuff to base frame
-        Eigen::Matrix<double, 3, 3> R_PB{
-            {cos(psi) * cos(theta), (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)), (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi))},
-            {sin(psi) * cos(theta), (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)), (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi))},
-            {-sin(theta), cos(theta) * sin(phi), cos(theta) * cos(phi)}
+           R_PB << cos(psi) * cos(theta),
+                   (-sin(psi) * cos(phi)) + (cos(psi) * sin(theta) * sin(phi)),
+                   (sin(psi) * sin(phi)) + (cos(psi) * sin(theta) * cos(phi)),
 
-        };
+                   sin(psi) * cos(theta),
+                   (cos(psi) * cos(phi)) + (sin(psi) * sin(theta) * sin(phi)),
+                   (-cos(psi) * sin(phi)) + (sin(psi) * sin(theta) * cos(phi)),
+
+                   -sin(theta),
+                   cos(theta) * sin(phi),
+                   cos(theta) * cos(phi);
 
            // Calculate platform's transformed position(New_pos)
-           Eigen::Matrix<double, 3, 6> Rotated_platform = R_PB * Platform_pos_zero;
+           Rotated_platform = R_PB * Platform_pos_zero;
            //MatrixXd New_pos = (T.array().replicate<1, 6>().matrix()).array() + Rotated_platform.array();
 
 
-           Eigen::Matrix<double, 3, 6> New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
+           New_pos = T.replicate<1, 6>().array() + Rotated_platform.array(); // q
 
 
            // Calculate angle of the servo arm at NEW position
            // First find the linear Leg length
 
-           Eigen::Matrix<double, 3, 6> lin_leg_lengths = New_pos - Servo_pos;
+           lin_leg_lengths = New_pos - Servo_pos;
 
            // The .colwise().norm() method calculates the Euclidean norm of each column,
            // which corresponds to the length of each leg vector
-           Eigen::Matrix<double, 1, 6> virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
+           virtual_leg_lengths = (lin_leg_lengths).colwise().norm();
 
 
            // Calculate the servo angles for each leg
 
-           Eigen::Matrix<double,1,6> L;
+
             for (size_t i=0;i<6;i++)
             {
 
@@ -340,7 +346,7 @@ void MainWindow::on_startButton_clicked()
 
 
 
-            Eigen::Matrix<double,1,6> M;
+
             for (size_t i=0;i<6;i++)
             {
                 M(0,i) = 2*servo_arm*(New_pos(2,i)-Servo_pos(2,i));
@@ -349,19 +355,17 @@ void MainWindow::on_startButton_clicked()
 
 
 
-            Eigen::Matrix<double,1,6> N;
+
             for (size_t i=0;i<6;i++)
             {
-                double x_diff  = New_pos(0,i) - Servo_pos(0,i); // intermediate calc
-                double y_diff  = New_pos(1,i) - Servo_pos(1,i);
+                x_diff  = New_pos(0,i) - Servo_pos(0,i); // intermediate calc
+                y_diff  = New_pos(1,i) - Servo_pos(1,i);
                 N(0,i) = 2*servo_arm*((cos(beta[i])*x_diff)+(sin(beta[i])*y_diff));
             }
 
 
 
             // Now we can calculate the servo angles
-            Eigen::Matrix<double,1,6>alpha;
-            Eigen::Matrix<double,1,6>servo_deg;
 
             for (size_t i = 0; i <6; i++)
             {
@@ -395,7 +399,7 @@ void MainWindow::on_startButton_clicked()
 
 
          //Changed knee position}
-         Eigen::Matrix<double,3,6> Knee_pos_new;
+
 
                     for (size_t j=0; j<6; j++)
                     {
