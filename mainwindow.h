@@ -56,6 +56,8 @@ private slots:
 
 
 
+
+
 private:
     Ui::MainWindow *ui;
     double X;//=  1.0*(ui->Slider_X->value());
