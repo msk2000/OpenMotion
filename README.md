@@ -16,8 +16,21 @@ The project is under development. I will be updating the repository soon with mo
 
 ### Current parts of the project being worked on:
 - X-Plane Flight simulator integration
-- Hardware prototype is being put together to test the code
+- Hardware prototype is being put together to test the code:
+
+
+https://github.com/user-attachments/assets/c51cb468-61b1-43b8-a83f-750a5365476e
+
+
 - Servo control
+
+
+
+https://github.com/user-attachments/assets/a1f8d8f1-394a-4851-b28d-f788cad15bbf
+
+
+
+
 
 
 ## Installation and Usage
