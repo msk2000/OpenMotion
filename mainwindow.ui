@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
-    <height>640</height>
+    <width>1300</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Open Motion</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>OM.png</normaloff>OM.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -32,15 +36,22 @@
    <widget class="QLabel" name="ArduinoStatus">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>30</y>
+      <x>190</x>
+      <y>590</y>
       <width>391</width>
       <height>24</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <family>Abyssinica SIL</family>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -52,21 +63,35 @@
      <rect>
       <x>9</x>
       <y>23</y>
-      <width>221</width>
-      <height>555</height>
+      <width>461</width>
+      <height>551</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
       <family>Abyssinica SIL</family>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="homeButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -76,9 +101,16 @@
      </item>
      <item>
       <widget class="QPushButton" name="startButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -88,13 +120,20 @@
      </item>
      <item>
       <spacer name="horizontalSpacer_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -106,9 +145,16 @@
      </item>
      <item>
       <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -118,9 +164,16 @@
      </item>
      <item>
       <widget class="QSlider" name="Slider_X">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="minimum">
@@ -133,15 +186,22 @@
         <number>1</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -151,9 +211,16 @@
      </item>
      <item>
       <widget class="QSlider" name="Slider_Y">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="minimum">
@@ -166,15 +233,22 @@
         <number>1</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -184,9 +258,16 @@
      </item>
      <item>
       <widget class="QSlider" name="Slider_Z">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="minimum">
@@ -199,22 +280,29 @@
         <number>1</number>
        </property>
        <property name="value">
-        <number>16</number>
+        <number>0</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -226,9 +314,16 @@
      </item>
      <item>
       <widget class="QLabel" name="label_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -238,9 +333,16 @@
      </item>
      <item>
       <widget class="QSlider" name="Slider_PHI">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="minimum">
@@ -250,15 +352,22 @@
         <number>45</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_5">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -268,9 +377,16 @@
      </item>
      <item>
       <widget class="QSlider" name="Slider_THETA">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="minimum">
@@ -280,15 +396,22 @@
         <number>45</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_6">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -298,9 +421,16 @@
      </item>
      <item>
       <widget class="QSlider" name="Slider_PSI">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="minimum">
@@ -310,15 +440,22 @@
         <number>45</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="abortButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <family>Abyssinica SIL</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="text">
@@ -328,14 +465,43 @@
      </item>
     </layout>
    </widget>
+   <widget class="ImGuiGLWidget" name="plot3D">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>20</y>
+      <width>731</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="chkDriveFromSim">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>590</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enable X-Plane</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>642</width>
-     <height>25</height>
+     <width>1300</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -350,6 +516,13 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ImGuiGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">ImGuiGLWidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
